@@ -13,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to the Tacton AoC Web!</a>
+          Welcome to the Tacton AoC Web!
         </h1>
       </main>
 
