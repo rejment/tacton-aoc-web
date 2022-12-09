@@ -2,9 +2,11 @@ import Head from 'next/head'
 import type AOC from "../types/leaderboard"
 import { getLeaderboard } from '../lib/leaderboard'
 import { getAllReports } from '../lib/reports'
+import { getAllGraphs } from '../lib/graphs'
 
 export default function Home({leaderboard}) {
   const reports = getAllReports(leaderboard);
+  const graphs = getAllGraphs(leaderboard);
   return (
     <div>
       <Head>
@@ -33,6 +35,12 @@ export default function Home({leaderboard}) {
                   ))}
                 </tbody>
               </table>
+            </>
+        ))}
+        { graphs.map(graph => (
+            <>
+                {graph.title}
+                <img width="760" src={graph.dataurl} />
             </>
         ))}
 
