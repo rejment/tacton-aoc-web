@@ -9,8 +9,8 @@ export function getAllReports(leaderboard : LeaderBoard) : Report[] {
 }
 
 const reports : ReportMaker[] = [
+    Members,
     FirstStar,
     SecondStar,
-    Members
 ];
 
