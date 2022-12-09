@@ -1,11 +1,12 @@
 import type { LeaderBoard } from "../../types/leaderboard";
+import type { Graph } from "../../types/graph";
 const { createCanvas } = require('canvas')
 
 
 const hexColors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#808080', '#ffffff']
 
 
-function getFinisherResults(members) {
+function getFinisherResults(members: any) {
     var star_1 = {};
     var star_2 = {};
     const memberIds = Object.keys(members);
@@ -30,14 +31,14 @@ function getFinisherResults(members) {
     }
 }
 
-function createPointsList(finisherResults) {
+function createPointsList(finisherResults: any) {
     var pointsList = [];
     
     for (var day = 1; day <= 25; day++) {
         var day_entries_star_1 = finisherResults.star_1[day];
         if (!day_entries_star_1) break;
         var timestamps = Object.keys(day_entries_star_1);
-        timestamps = timestamps.sort((a, b) => (a - b));
+        timestamps = timestamps.sort((a: any, b: any) => (a - b));
 
         var points = finisherResults.maxScore;
         for (var timestamp of timestamps) {
@@ -53,7 +54,7 @@ function createPointsList(finisherResults) {
 
         var day_entries_star_2 = finisherResults.star_2[day];
         timestamps = Object.keys(day_entries_star_2);
-        timestamps = timestamps.sort((a, b) => (a - b));
+        timestamps = timestamps.sort((a: any, b: any) => (a - b));
 
         points = finisherResults.maxScore;
         for (var timestamp of timestamps) {
@@ -71,7 +72,7 @@ function createPointsList(finisherResults) {
     return pointsList
 }
 
-function addUserEntry(userLines, entry, startTimeStamp) {
+function addUserEntry(userLines: any, entry: any, startTimeStamp: number) {
     if (!userLines[entry.userId]) {
         userLines[entry.userId] = {
             points: 0,
@@ -84,7 +85,7 @@ function addUserEntry(userLines, entry, startTimeStamp) {
     userLines[entry.userId].line.push({x: x, y: userLines[entry.userId].points});
 }
 
-function createUserLines(pointsList, startTimeStamp) {
+function createUserLines(pointsList: any, startTimeStamp: number) {
     var userLines = {};    
     for (var entry of pointsList) {
         addUserEntry(userLines, entry, startTimeStamp);
@@ -102,12 +103,12 @@ function createUserLines(pointsList, startTimeStamp) {
     return userLines
 }
 
-function getSortedUserIds(userLines) {
+function getSortedUserIds(userLines: any) {
     var userIds = Object.keys(userLines);
     return userIds.sort((a, b) => (userLines[b].points - userLines[a].points));    
 }
 
-function drawLines(ctx, userIds, userLines) {        
+function drawLines(ctx: any, userIds: any, userLines: any) {        
     const maxPoints = userLines[userIds[0]].points    
     const pxPerPoint = 3800 / maxPoints
     
@@ -121,14 +122,14 @@ function drawLines(ctx, userIds, userLines) {
         var linePoints = userLines[id].line;
         //console.log(linePoints);
         for (var p of linePoints) {
-            ctx.lineTo((15 + p.x * 10), (3900 - p.y * pxPerPoint));
+            ctx.lineTo((50 + p.x * 10), (3900 - p.y * pxPerPoint));
             ctx.strokeStyle = userColorHex;
             ctx.stroke();
         }
     }
 }
 
-function drawUserNames(ctx, userIds, userLines, members) {
+function drawUserNames(ctx: any, userIds: any, userLines: any, members: any) {
     var i = 0;
     for (var id of userIds) {    
         const userColorHex = hexColors[i % hexColors.length]
@@ -138,16 +139,15 @@ function drawUserNames(ctx, userIds, userLines, members) {
         
         var name = members[id].name;
         if (!name) name = "- anonymous user -";
-        ctx.fillText(userLines[id].points + " : " + name,6000 , (100 + (i * 85)))
+        ctx.fillText(userLines[id].points + " : " + name, 100 , (100 + (i * 85)))
         i++;
     }
 }
 
-export function ScoreGraph(leaderboard: LeaderBoard): Report {
+export function ScoreGraph(leaderboard: LeaderBoard): Graph {
 
     const year = leaderboard.event
     const startTimeStamp = Math.floor(Date.parse('01 Dec ' + year + ' 05:00:00 GMT') / 1000);
-    console.log(year, startTimeStamp)
     
     const finisherResults = getFinisherResults(leaderboard.members)
     var pointsList = createPointsList(finisherResults)    

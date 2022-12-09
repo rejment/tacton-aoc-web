@@ -41,7 +41,7 @@ export default function Page({leaderboard, year}) {
         { graphs.map(graph => (
             <>
                 {graph.title}
-                <img width="760" src={graph.dataurl} />
+                <a href={graph.dataurl} target="_blank" style={{cursor: "zoom-in"}}><img alt="loading image ..." width="760" src={graph.dataurl} /></a>
             </>
         ))}
 
