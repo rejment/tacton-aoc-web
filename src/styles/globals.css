@@ -1,0 +1,44 @@
+html {
+  background-color: hsl(202deg 73% 26%);
+  color: white;
+}
+
+body {
+  padding: 20px;
+  margin: 0;
+  font-family: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro","Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  max-width: 800px;
+}
+
+th {
+  text-align: left;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+table {
+  width: 100%;
+  padding-bottom: 20px;
+  cursor: default;
+}
+
+tbody tr:hover td {
+  background-color: hsl(202deg 73% 46%);
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}

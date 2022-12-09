@@ -1,7 +1,8 @@
+import type AOC from "../types/leaderboard"
 
 const CACHE_TIMEOUT = 1000*60*10 // 10 minutes
 
-export async function getLeaderboard() {
+export async function getLeaderboard(): Promise<AOC.LeaderBoard> {
     const now = Date.now()
 
     if (!global.leaderboardCache) {
@@ -25,3 +26,4 @@ export async function getLeaderboard() {
 
     return data
   }
+
