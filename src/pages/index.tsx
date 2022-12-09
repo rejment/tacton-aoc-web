@@ -22,13 +22,13 @@ export default function Home({leaderboard}) {
               <table>
               <thead>
                   <tr>
-                    {report.columns.map(col => (<th>{col}</th>))}
+                    {report.columns.map(col => (<th key={col}>{col}</th>))}
                   </tr>
                 </thead>
                 <tbody>
                   {report.lines.map(line=>(
                     <tr key={line.join("-")}>
-                    {line.map(cell => (<td>{cell}</td>))}
+                    {line.map(cell => (<td key={cell}>{cell}</td>))}
                   </tr>
                   ))}
                 </tbody>
