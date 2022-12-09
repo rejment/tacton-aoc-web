@@ -1,18 +1,13 @@
-import Head from 'next/head'
-import { getLeaderboard } from '../lib/leaderboard'
-import { getAllReports } from '../lib/reports'
+import { PageWrapper } from '../../lib/components';
+import { getLeaderboard } from '../../lib/leaderboard'
+import { getAllReports } from '../../lib/reports'
 
 export default function Page({leaderboard, year}) {
   const reports = getAllReports(leaderboard);
-  return (
-    <div>
-      <Head>
-        <title>Tacton AoC Web</title>
-        <meta name="description" content="Tacton AoC Web" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main>
+  return (
+    <PageWrapper title="Tacton AoC Web">
+
         <h1>Welcome to the {year} Tacton AoC Web!</h1>
 
         <ul id="years">
@@ -42,9 +37,7 @@ export default function Page({leaderboard, year}) {
             </div>
         ))}
 
-      </main>
-
-    </div>
+    </PageWrapper>
   )
 }
 
