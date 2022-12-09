@@ -33,6 +33,20 @@ tbody tr:hover td {
   background-color: hsl(202deg 73% 46%);
 }
 
+ul#years {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+}
+
+ul#years li {
+  display: block;
+}
+
+ul#years li.active {
+  border-bottom: 2px solid white;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
