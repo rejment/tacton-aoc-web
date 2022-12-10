@@ -25,12 +25,13 @@ a {
 
 table {
   width: 100%;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
   cursor: default;
+  border-collapse: collapse;
 }
 
-tbody tr:hover td {
-  background-color: hsl(202deg 73% 46%);
+tr:nth-child(2n) {
+  background-color: hsl(202deg 73% 30%);
 }
 
 ul#years {

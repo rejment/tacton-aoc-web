@@ -41,10 +41,10 @@ export default function Page({leaderboard, year}) {
             </div>
         ))}
         { graphs.map(graph => (
-            <>
+            <div key={graph.title}>
                 {graph.title}
-                <a href={graph.dataurl} target="_blank" rel="noreferrer" style={{cursor: "zoom-in"}}><Image alt="loading image ..." width={760} src={graph.dataurl} /></a>
-            </>
+                <Image alt="loading image ..." width={700} height={400} src={graph.dataurl} />
+            </div>
         ))}
 
     </PageWrapper>
