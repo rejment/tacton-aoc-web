@@ -33,7 +33,7 @@ export default function Page({leaderboard, year}) {
                 <tbody>
                   {report.lines.map(line=>(
                     <tr key={line.join("-")}>
-                    {line.map(cell => (<td key={cell}>{cell}</td>))}
+                    {line.map((cell,i) => (<td key={cell+i}>{cell}</td>))}
                   </tr>
                   ))}
                 </tbody>

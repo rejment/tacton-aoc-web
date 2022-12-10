@@ -1,5 +1,6 @@
 import type { LeaderBoard } from "../../types/leaderboard";
 import type { Report } from "../../types/report";
+import { comparingInt } from "../comparator";
 import { formatSeconds } from "../time";
 
 export function SecondStar(leaderboard: LeaderBoard): Report {
@@ -14,7 +15,7 @@ export function SecondStar(leaderboard: LeaderBoard): Report {
             }
         }));
 
-    dayList.sort((a, b) => a.duration - b.duration);
+    dayList.sort(comparingInt(a=>a.duration));
 
     dayList.length = Math.min(dayList.length, 20);
 
