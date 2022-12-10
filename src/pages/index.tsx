@@ -1,4 +1,3 @@
-
 // this page will not render anything, the getServerSideProps makes a redirect instead
 export default function Nothing() {
 }

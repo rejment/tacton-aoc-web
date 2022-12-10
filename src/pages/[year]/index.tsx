@@ -1,9 +1,13 @@
 import { PageWrapper } from '../../lib/components';
 import { getLeaderboard } from '../../lib/leaderboard'
 import { getAllReports } from '../../lib/reports'
+import { getAllGraphs } from '../../lib/graphs'
+
+import Image from 'next/image'
 
 export default function Page({leaderboard, year}) {
   const reports = getAllReports(leaderboard);
+  const graphs = getAllGraphs(leaderboard);
 
   return (
     <PageWrapper title="Tacton AoC Web">
@@ -35,6 +39,12 @@ export default function Page({leaderboard, year}) {
                 </tbody>
               </table>
             </div>
+        ))}
+        { graphs.map(graph => (
+            <>
+                {graph.title}
+                <a href={graph.dataurl} target="_blank" rel="noreferrer" style={{cursor: "zoom-in"}}><Image alt="loading image ..." width={760} src={graph.dataurl} /></a>
+            </>
         ))}
 
     </PageWrapper>
