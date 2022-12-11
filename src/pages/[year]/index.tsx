@@ -1,9 +1,10 @@
 import { PageWrapper } from '../../lib/components';
-import { getLeaderboard } from '../../lib/leaderboard'
+import { getLeaderboard } from '../../lib/leaderboard-api'
 import { getAllReports } from '../../lib/reports'
 import { getAllGraphs } from '../../lib/graphs'
 
 import Image from 'next/image'
+import { range } from '../../lib/range';
 
 export default function Page({leaderboard, year}) {
   const reports = getAllReports(leaderboard);
@@ -15,7 +16,7 @@ export default function Page({leaderboard, year}) {
         <h1>Welcome to the {year} Tacton AoC Web!</h1>
 
         <ul id="years">
-            {[2015,2016,2017,2018,2019,2020,2021,2022].map(y=>(
+            {range(2015,2022).map(y=>(
                 <li className={year==y?'active':''} key={y}><a href={`/${y}`}>{y}</a></li>
             ))}
         </ul>

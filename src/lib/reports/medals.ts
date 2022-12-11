@@ -1,26 +1,15 @@
 import type { LeaderBoard } from "../../types/leaderboard";
 import type { Report } from "../../types/report";
 import { comparingInt } from "../comparator";
+import { range } from "../range";
 import { releaseSecond } from "../time";
-
-type medalCounts = {
-    0: number,
-    1: number,
-    2: number
-}
 
 type memberMedals = {
     [name: string]: {
         name: string,
-        totals: medalCounts,
-        medals: medalCounts[]
+        totals: number[],
+        medals: number[]
     }
-}
-
-const medalCounts : medalCounts = {
-    0: 0,
-    1: 0,
-    2: 0
 }
 
 export function Medals(leaderboard: LeaderBoard): Report {
@@ -29,12 +18,10 @@ export function Medals(leaderboard: LeaderBoard): Report {
 
     // prepare structure for each member
     Object.values(leaderboard.members).forEach(member => {
-        const medals = [null];
-        for (let d=1; d<=25; d++) medals.push({...medalCounts});
         memberMedals[member.name] = { 
             name: member.name, 
-            totals: {... medalCounts}, 
-            medals: medals
+            totals: [0, 0, 0], 
+            medals: range(0, 25).map(i=>3)
         };
     });
 
@@ -50,43 +37,26 @@ export function Medals(leaderboard: LeaderBoard): Report {
                 };
             }).
             sort(comparingInt(a=>a.duration)).
-            filter((a,i)=>i<=3).
+            filter((a,i)=>i<3).
             forEach((medal, i) => {
                 // update the member medals structure
                 memberMedals[medal.name].totals[i] += 1;
-                memberMedals[medal.name].medals[d][i] = 1;
+                memberMedals[medal.name].medals[d] = i;
             });
     }
     // remove members without any medal and sort by gold,silver,bronze
     const toplist = Object.values(memberMedals).filter(a=>(a.totals[0]+a.totals[1]+a.totals[2])>0);
     toplist.sort(comparingInt(m => -(m.totals[0]*25*25 + m.totals[1]*25 + m.totals[2])));
 
-    const lines = toplist.map(pos => {
-        const line = [pos.name];
-        for (let d=1; d<=25; d++) {
-            let sym = '';
-            if (pos.medals[d][0]==1) {
-                sym = '🥇';
-            } else if (pos.medals[d][1]==1) {
-                sym = '🥈';
-            } else if (pos.medals[d][2]==1) {
-                sym = '🥉';
-            }
-            line.push(sym);
-        }
-        line.push(`${pos.totals[0]}`);
-        line.push(`${pos.totals[1]}`);
-        line.push(`${pos.totals[2]}`);
-       return line; 
-    });
+    const columns : string[] = ["Name", ... range(1,25).map(i=>`${i}`), '🥇', '🥈', '🥉'];
 
-    const columns : string[] = ["Name"];
-    for (let d=1; d<=25; d++) columns.push(`${d}`);
-    columns.push('🥇', '🥈', '🥉');
+    const lines = toplist.map(pos => (
+        [pos.name, ...range(1, 25).map(d=>['🥇', '🥈', '🥉', ' '][pos.medals[d]]), ...pos.totals.map(i=>`${i}`)]
+    ));
 
     return {
         title: "Medals",
-        columns: columns,
+        columns,
         lines
     };
 

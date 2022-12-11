@@ -1,6 +1,5 @@
 import { PageWrapper } from '../../lib/components';
-import { getLeaderboard } from '../../lib/leaderboard'
-import type AOC from '../../types/leaderboard'
+import { getLeaderboard } from '../../lib/leaderboard-api'
 
 // this page is accessible at /2022/podium
 export default function Page({leaderboard, year}) {
