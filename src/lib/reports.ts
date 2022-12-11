@@ -4,6 +4,7 @@ import { FirstStar } from "./reports/firststar";
 import { Medals } from "./reports/medals";
 import { Members } from "./reports/members";
 import { SecondStar } from "./reports/secondstar";
+import { MaxTimes } from "./reports/maxtimes";
 
 export function getAllReports(leaderboard : LeaderBoard) : Report[] {
     return reports.map(r => r(leaderboard));
@@ -14,5 +15,6 @@ const reports : ReportMaker[] = [
     Members,
     FirstStar,
     SecondStar,
+    MaxTimes,
 ];
 

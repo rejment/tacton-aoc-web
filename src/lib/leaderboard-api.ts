@@ -1,6 +1,6 @@
 import type AOC from "../types/leaderboard"
 
-const CACHE_TIMEOUT = 1000*60*10 // 10 minutes
+const CACHE_TIMEOUT = 1000*60*15 // 15 minutes
 
 export async function getLeaderboard(year: string): Promise<AOC.LeaderBoard> {
     const now = Date.now()
