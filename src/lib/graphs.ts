@@ -8,6 +8,6 @@ export function getAllGraphs(leaderboard : LeaderBoard) : Graph[] {
 }
 
 const graphs : GraphMaker[] = [
-    ScoreGraph
+    //ScoreGraph
 ];
 
