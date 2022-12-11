@@ -4,10 +4,10 @@ import { ScoreGraph } from "./graphs/scoregraph";
 
 
 export function getAllGraphs(leaderboard : LeaderBoard) : Graph[] {
-    return graphs.map(r => r(leaderboard));
+    return graphs.map(r => r());
 }
 
 const graphs : GraphMaker[] = [
-    //ScoreGraph
+    ScoreGraph
 ];
 

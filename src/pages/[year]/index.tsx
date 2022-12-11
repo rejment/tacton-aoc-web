@@ -1,4 +1,4 @@
-import { PageWrapper } from '../../lib/components';
+import { Canvas, PageWrapper } from '../../lib/components';
 import { getLeaderboard } from '../../lib/leaderboard-api'
 import { getAllReports } from '../../lib/reports'
 import { getAllGraphs } from '../../lib/graphs'
@@ -43,8 +43,10 @@ export default function Page({leaderboard, year}) {
         ))}
         { graphs.map(graph => (
             <div key={graph.title}>
+              <>
                 {graph.title}
-                <Image alt="loading image ..." width={700} height={400} src={graph.dataurl} />
+                <Canvas width={700} height={400} style={{width:"700px"}} render={canvas=>graph.render(canvas, leaderboard)}/>
+              </>
             </div>
         ))}
 

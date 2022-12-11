@@ -1,8 +1,8 @@
 import { LeaderBoard } from "./leaderboard";
 
-export type GraphMaker = (a: LeaderBoard) => Graph;
+export type GraphMaker = () => Graph;
 
 export type Graph = {
     title: string,
-    dataurl: string
+    render: (canvas:any, leaderboard: LeaderBoard) => void
 }

@@ -1,7 +1,6 @@
 import type { LeaderBoard } from "../../types/leaderboard";
 import type { Graph } from "../../types/graph";
-import SvgBuilder from 'svg-builder'
-import {encode} from 'min-base64'
+import { copyFile } from "fs";
 
 const hexColors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#808080', '#ffffff']
 
@@ -115,21 +114,16 @@ function drawLines(ctx: any, userIds: any, userLines: any) {
     var i = 0;
     for (var id of userIds) {    
         const userColorHex = hexColors[i++ % hexColors.length]
-        let x1 = 2;
-        let y1 = 3900;
+
+        ctx.beginPath();
+        ctx.lineWidth = 1
+        ctx.moveTo(2, 3900);
         var linePoints = userLines[id].line;
         //console.log(linePoints);
         for (var p of linePoints) {
-            const [x2, y2] = [(50 + p.x * 10), (3900 - p.y * pxPerPoint)];
-            ctx.line({
-                x1,
-                y1,
-                x2,
-                y2,
-                stroke:userColorHex,
-                'stroke-width': 6
-            });
-            [x1, y1] = [x2, y2];
+            ctx.lineTo((50 + p.x * 10), (3900 - p.y * pxPerPoint));
+            ctx.strokeStyle = userColorHex;
+            ctx.stroke();
         }
     }
 }
@@ -138,54 +132,45 @@ function drawUserNames(ctx: any, userIds: any, userLines: any, members: any) {
     var i = 0;
     for (var id of userIds) {    
         const userColorHex = hexColors[i % hexColors.length]
+        ctx.fillStyle = userColorHex;
+        ctx.textAlign = 'left';
+        ctx.font = (50) + 'pt Arial'
 
         var name = members[id].name;
         if (!name) name = "- anonymous user -";
-        const [x,y] = [100 , (100 + (i * 85))];
-        ctx.text({
-            x,
-            y,
-            'font-family': 'Arial',
-            'font-size': 50,
-            stroke : userColorHex,
-            fill: userColorHex
-        },userLines[id].points + " : " + name);
-
+        ctx.fillText(userLines[id].points + " : " + name, 100 , (100 + (i * 85)))
         i++;
     }
 }
 
-export function ScoreGraph(leaderboard: LeaderBoard): Graph {
+export function ScoreGraph(): Graph {
 
-    const year = leaderboard.event
-    const startTimeStamp = Math.floor(Date.parse('01 Dec ' + year + ' 05:00:00 GMT') / 1000);
+    const render = (canvas: any, leaderboard: LeaderBoard) => {
+        const year = leaderboard.event
+        const startTimeStamp = Math.floor(Date.parse('01 Dec ' + year + ' 05:00:00 GMT') / 1000);
 
-    const finisherResults = getFinisherResults(leaderboard.members)
-    var pointsList = createPointsList(finisherResults)    
-    pointsList = pointsList.sort((a, b) => (a.timestamp - b.timestamp));
-    const userLines = createUserLines(pointsList, startTimeStamp)
-    const userIds = getSortedUserIds(userLines)
+        const finisherResults = getFinisherResults(leaderboard.members)
+        var pointsList = createPointsList(finisherResults)    
+        pointsList = pointsList.sort((a, b) => (a.timestamp - b.timestamp));
+        const userLines = createUserLines(pointsList, startTimeStamp)
+        const userIds = getSortedUserIds(userLines)
 
-    const width = 7000
-    const height = 4000
-    const svg = SvgBuilder.newInstance();
-    svg.width(width).height(height);
-    svg.rect(
-        {
-        x1:0,
-        y1:0,
-        height,
-        width,
-        stroke:'#111',
-        'stroke-width': 40
-        }
-    );
-    drawLines(svg, userIds, userLines)
-    drawUserNames(svg, userIds, userLines, leaderboard.members)
-    const a = svg.render();
+        const scale = 2;
+        const width = 700 * scale;
+        const height = 400 * scale;
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d')
+        ctx.fillStyle = '#111'
+        ctx.fillRect(0, 0, width, height)
+        ctx.scale(scale/10,scale/10);
+    
+        drawLines(ctx, userIds, userLines)
+        drawUserNames(ctx, userIds, userLines, leaderboard.members)
+    };
     return {
         title: "Score/Time graph of all members",
-        dataurl: `data:image/svg+xml;base64,${encode(a)}`
-        };
+        render
+    };
 
 }
