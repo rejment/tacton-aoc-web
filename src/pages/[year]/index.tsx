@@ -2,11 +2,13 @@ import { Canvas, PageWrapper } from '../../lib/components';
 import { getLeaderboard } from '../../lib/leaderboard-api'
 import { getAllReports } from '../../lib/reports'
 import { getAllGraphs } from '../../lib/graphs'
+import { getTransformedPattern } from "../../lib/pattern_transformer";
 
 import Image from 'next/image'
 import { range } from '../../lib/range';
+import { readFile } from "fs/promises";
 
-export default function Page({leaderboard, year}) {
+export default function Page({leaderboard, year, pattern}) {
   const reports = getAllReports(leaderboard);
   const graphs = getAllGraphs(leaderboard);
 
@@ -21,6 +23,11 @@ export default function Page({leaderboard, year}) {
             ))}
         </ul>
 
+        <div key="ascii-art">
+            <pre>
+                {getTransformedPattern(leaderboard, pattern)}
+            </pre>
+        </div>
 
         { reports.map(report => (
             <div key={report.title}>
@@ -56,7 +63,7 @@ export default function Page({leaderboard, year}) {
 
 export async function getServerSideProps(context) {
   const { year } = context.query;
-
-  const leaderboard = await getLeaderboard(year)
-  return { props: { leaderboard, year } }
+  const leaderboard = await getLeaderboard(year);
+  const pattern = year === "2022" ? await readFile("pattern_2022.txt", "utf8") : "";
+  return {props: {leaderboard, year, pattern}}
 }
