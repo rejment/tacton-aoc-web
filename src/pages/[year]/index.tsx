@@ -7,6 +7,7 @@ import { getTransformedPattern } from "../../lib/pattern_transformer";
 import Image from 'next/image'
 import { range } from '../../lib/range';
 import { readFile } from "fs/promises";
+import path from "path";
 
 export default function Page({leaderboard, year, pattern}) {
   const reports = getAllReports(leaderboard);
@@ -64,6 +65,6 @@ export default function Page({leaderboard, year, pattern}) {
 export async function getServerSideProps(context) {
   const { year } = context.query;
   const leaderboard = await getLeaderboard(year);
-  const pattern = year === "2022" ? await readFile("pattern_2022.txt", "utf8") : "";
+  const pattern = year === "2022" ? await readFile(path.join(process.cwd(), "pattern_2022.txt"), "utf8") : "";
   return {props: {leaderboard, year, pattern}}
 }
