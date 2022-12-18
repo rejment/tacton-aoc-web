@@ -1,7 +1,9 @@
 import type {LeaderBoard} from "../types/leaderboard";
 import {range} from "./range";
 
-export function getTransformedPattern(leaderboard: LeaderBoard, pattern: String) {
+export function getTransformedPattern(leaderboard: LeaderBoard, pattern: string) {
+
+    type Point = [number, number];
 
     let totalStars = Object.values(leaderboard.members).map(member => member.stars).reduce((a, b) => a + b, 0);
 
@@ -12,7 +14,7 @@ export function getTransformedPattern(leaderboard: LeaderBoard, pattern: String)
     }
 
     const lines = pattern.split("\n");
-    const mid = [lines.length / 2, lines.map(l => l.length).reduce((a, b) => Math.max(a, b), 0) / 2];
+    const mid : Point = [lines.length / 2, lines.map(l => l.length).reduce((a, b) => Math.max(a, b), 0) / 2];
 
     function dist([x0, y0], [x1, y1]) {
         //return 3*Math.abs(x0-x1) + Math.abs(y0-y1); //This gives a diamond/losange shape
@@ -20,7 +22,7 @@ export function getTransformedPattern(leaderboard: LeaderBoard, pattern: String)
         //return Math.sqrt(5* (x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1)); //This gives a round/oval shape
     }
 
-    const coordinates = lines.flatMap((line, i) => Array.from(line).map((c, j) => [i, j]));
+    const coordinates = lines.flatMap((line, i) => Array.from(line).map((c, j) => [i, j])) as Point[];
     coordinates.sort((a, b) => dist(a, mid) - dist(b, mid));
     coordinates.length = Math.min(coordinates.length, totalStars);
     const revealed = lines.map(line => Array.from(line).map(c => false));
