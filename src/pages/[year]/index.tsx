@@ -35,7 +35,7 @@ export default function Page({leaderboard, year, pattern}) {
                           One character is revealed for each star obtained by anyone on the leaderboard.
                           {
                               (transformed.remaining > 0) ?
-                                  <div>Let's collect as many of them to reveal the entire image!
+                                  <div>Let&apos;s collect as many of them to reveal the entire image!
                                       Only {transformed.remaining} left to reach the goal...</div>
                                   :
                                   <div>Enough stars have been collected. Well done</div>
