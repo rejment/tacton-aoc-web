@@ -52,7 +52,7 @@ function createPointsList(finisherResults: any) {
         }
 
         var day_entries_star_2 = finisherResults.star_2[day];
-        timestamps = Object.keys(day_entries_star_2);
+        timestamps = Object.keys(day_entries_star_2 || {});
         timestamps = timestamps.sort((a: any, b: any) => (a - b));
 
         points = finisherResults.maxScore;
