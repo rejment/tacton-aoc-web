@@ -22,12 +22,13 @@ export function PageWrapper({title, children}) {
 export function Canvas(props) {
   
   const canvasRef = useRef(null)
+  const {render, ...canvasProps} = props;
   
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
-    props.render(canvas, context)
+    render(canvas, context)
   }, [])
   
-  return <canvas ref={canvasRef} {...props}/>
+  return <canvas ref={canvasRef} {...canvasProps}/>
 }
