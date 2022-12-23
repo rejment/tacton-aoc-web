@@ -35,7 +35,7 @@ export function MostStarsPerDay(leaderboard: LeaderBoard): Report {
         title: "Most Collected Stars in a Day",
         columns: ["Rank", "Name", "Day", "Number of Stars"],
         lines: allList.map((element, i) => ([
-            `${i}`,
+            `${i + 1}`,
             element.member,
             `${element.day} December ${leaderboard.event}`,
             `${element.stars}`
