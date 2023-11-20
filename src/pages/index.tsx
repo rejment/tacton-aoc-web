@@ -5,7 +5,7 @@ export default function Nothing() {
 export async function getServerSideProps() {
   return {
     redirect: {
-      destination: '/2022',
+      destination: '/2023',
       permanent: false,
     },
   }
