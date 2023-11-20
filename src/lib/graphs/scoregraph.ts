@@ -106,7 +106,8 @@ function getSortedUserIds(userLines: any) {
     return userIds.sort((a, b) => (userLines[b].points - userLines[a].points));    
 }
 
-function drawLines(ctx: any, userIds: any, userLines: any) {        
+function drawLines(ctx: any, userIds: any, userLines: any) {   
+    if (!userLines[userIds[0]]) return;
     const maxPoints = userLines[userIds[0]].points    
     const pxPerPoint = 3800 / maxPoints
 
