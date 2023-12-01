@@ -7,13 +7,14 @@ export function SecondStar(leaderboard: LeaderBoard): Report {
 
     const dayList = Object.values(leaderboard.members).flatMap(member => 
         Object.entries(member.completion_day_level).flatMap(([date, day]) => {
-            const duration = (day["2"]?.get_star_ts??9999999999) - (day["1"].get_star_ts);
+            const duration = (day["2"]?.get_star_ts??0) - (day["1"].get_star_ts);
             return {
                 name: member.name,
                 title: `Day ${date} part B`,
                 duration,
+                durationText: formatSeconds(duration),
             }
-        }));
+        })).filter(a => a.duration > 0);
 
     dayList.sort(comparingInt(a=>a.duration));
 
@@ -26,7 +27,7 @@ export function SecondStar(leaderboard: LeaderBoard): Report {
             `${i + 1}`,
             day.name,
             day.title,
-            formatSeconds(day.duration)
+            day.durationText,
         ]))
     };
 
