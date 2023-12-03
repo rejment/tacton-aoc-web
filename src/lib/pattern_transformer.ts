@@ -18,7 +18,7 @@ export function getTransformedPattern(leaderboard: LeaderBoard, pattern: string)
 
     function dist([x0, y0], [x1, y1]) {
         //return 3*Math.abs(x0-x1) + Math.abs(y0-y1); //This gives a diamond/losange shape
-        return Math.max(3 * Math.abs(x0 - x1), Math.abs(y0 - y1)); //This gives a rectangle shape
+        return Math.max(2 * Math.abs(x0 - x1), Math.abs(y0 - y1)); //This gives a rectangle shape
         //return Math.sqrt(5* (x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1)); //This gives a round/oval shape
     }
 
