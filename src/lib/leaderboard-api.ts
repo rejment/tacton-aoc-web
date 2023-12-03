@@ -16,7 +16,14 @@ export async function getLeaderboard(year: string): Promise<AOC.LeaderBoard> {
     }
     const cache = caches[year];
 
-    if (cache.data && ((now-cache.timestamp)<CACHE_TIMEOUT)) {
+    const month = new Date(now).getUTCMonth();
+    const hour = new Date(now).getUTCHours();
+    let cache_timeout = CACHE_TIMEOUT;
+    if (month == 11 && hour == 5) {
+        cache_timeout = 1000*60*15; // 1 minute
+    }    
+
+    if (cache.data && ((now-cache.timestamp)<cache_timeout)) {
         return cache.data
     }
 
