@@ -19,7 +19,7 @@ export default function Page({leaderboard, year, pattern}) {
           <h1>Welcome to the {year} Tacton AoC Web!</h1>
 
           <ul id="years">
-              {range(2015, 2023).map(y => (
+              {range(2015, 2024).map(y => (
                   <li className={year == y ? 'active' : ''} key={y}><a href={`/${y}`}>{y}</a></li>
               ))}
           </ul>
